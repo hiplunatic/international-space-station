@@ -35,9 +35,7 @@ function gotRefreshedData(iss, weather){
   _.each(days, function(day){
     $('.flyovers').append('<h2>'+ day +'</h2>');
     var flyoversForDay = flyoversGrouped[day];
-    flyoversForDay = _.sortBy(flyoversForDay, function(flyover){
-      return flyover.clouds;
-    });
+    flyoversForDay = _.sortBy(flyoversForDay, 'clouds');
     _.each(flyoversForDay, outputFlyover);
   })
 }
