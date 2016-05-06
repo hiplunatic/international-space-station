@@ -1,9 +1,17 @@
 function gotRefreshedData(iss, weather){
   var flyovers = _.map(iss.response, processFlyoverData);
   var flyoversWithWeather = _.where(flyovers, {hasWeather: true});
+  var flyoversGrouped = _.groupBy(flyoversWithWeather, getDay);
+
+  var days = _.keys(flyoversGrouped);
 
   console.log('iss data', iss);
   console.log('weather', weather);
+  console.log('days', flyoversGrouped);
+
+  function getDay(flyover){
+    return flyover.risetime.toDateString();
+  }
 
   function outputFlyover(flyover, i){
     $('.flyovers').append('<div>Flyover at ' + flyover.risetime + ':' + flyover.weatherDescription +'</div');
@@ -22,12 +30,17 @@ function gotRefreshedData(iss, weather){
     };
   }
 
-  _.each(flyoversWithWeather, outputFlyover);
+  //_.each(flyoversWithWeather, outputFlyover);
+  _.each(days, function(day){
+    $('.flyovers').append('<h2>'+ day +'</h2>');
+    var flyoversForDay = flyoversGrouped[day];
+    _.each(flyoversForDay, outputFlyover);
+  })
 }
 
 function refreshData() {
   var apiKey = "ef3d980bb7bf92cc26ddafb1e5e10b1c";
-  jQuery.getJSON("http://api.open-notify.org/iss-pass.json?lat=50.8&lon=-0.3667&n=5&callback=?", function (iss) {
+  jQuery.getJSON("http://api.open-notify.org/iss-pass.json?lat=50.8&lon=-0.3667&n=20&callback=?", function (iss) {
     jQuery.getJSON("http://api.openweathermap.org/data/2.5/forecast?lat=50.8&lon=-0.3667&APPID="+ apiKey +"&callback=?", function (weather) {
       gotRefreshedData(iss, weather);
     });
