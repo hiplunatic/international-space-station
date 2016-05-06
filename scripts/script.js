@@ -23,6 +23,7 @@ function gotRefreshedData(iss, weather){
     });
 
     return{
+      clouds: weatherAtFlyover && weatherAtFlyover.clouds.all,
       hasWeather: !_.isUndefined(weatherAtFlyover),
       weatherDescription: weatherAtFlyover && weatherAtFlyover.weather[0].description,
       risetime: new Date(flyover.risetime * 1000),
@@ -34,6 +35,9 @@ function gotRefreshedData(iss, weather){
   _.each(days, function(day){
     $('.flyovers').append('<h2>'+ day +'</h2>');
     var flyoversForDay = flyoversGrouped[day];
+    flyoversForDay = _.sortBy(flyoversForDay, function(flyover){
+      return flyover.clouds;
+    });
     _.each(flyoversForDay, outputFlyover);
   })
 }
