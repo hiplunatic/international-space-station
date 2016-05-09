@@ -2,6 +2,7 @@ function ISSFlyover(){
   this.refreshData();
   _.bindAll(this, 'refreshData', 'gotRefreshedData');
   $('#refresh').on('click', this.refreshData);
+  // $('#latitude, #longitude').on('change keypress', _.debounce(this.refreshData, 750));
 }
 _.extend(ISSFlyover.prototype, {
   gotRefreshedData: function(iss, weather, astros){
@@ -50,7 +51,7 @@ _.extend(ISSFlyover.prototype, {
   },
 
   refreshData: function() {
-    var location = {lat: 50.8, lon: -0.3667};
+    var location = {lat: $('#latitude').val(), lon: $('#longitude').val()};
     var me = this;
     var apiKey = "ef3d980bb7bf92cc26ddafb1e5e10b1c";
     jQuery.getJSON("http://api.open-notify.org/iss-pass.json?lat=50.8&lon=-0.3667&n=20&callback=?", _.extend({n: 100}, location), function (iss) {
