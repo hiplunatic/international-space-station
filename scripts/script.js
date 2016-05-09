@@ -2,12 +2,13 @@ function gotRefreshedData(iss, weather){
   var flyovers = _.map(iss.response, processFlyoverData);
   var flyoversWithWeather = _.where(flyovers, {hasWeather: true});
   var flyoversGrouped = _.groupBy(flyoversWithWeather, getDay);
-
   var days = _.keys(flyoversGrouped);
+  var summary = _.countBy(flyoversWithWeather, 'weatherDescription');
 
-  console.log('iss data', iss);
-  console.log('weather', weather);
-  console.log('days', flyoversGrouped);
+  $('.summary').html('');
+  _.each(summary, function(count, condition){
+    $('.summary').append('<div><b>' + condition + '</b>:' + count + '</div>');
+  });
 
   function getDay(flyover){
     return flyover.risetime.toDateString();
@@ -31,7 +32,6 @@ function gotRefreshedData(iss, weather){
     };
   }
 
-  //_.each(flyoversWithWeather, outputFlyover);
   _.each(days, function(day){
     $('.flyovers').append('<h2>'+ day +'</h2>');
     var flyoversForDay = flyoversGrouped[day];
