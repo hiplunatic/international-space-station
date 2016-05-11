@@ -41,10 +41,10 @@ _.extend(ISSFlyover.prototype, {
 
     var flyoversGrouped = _.groupBy(flyoversWithWeather, getDay);
 
+    var dayTemplate = _.template($('#day-template').html());
+
     _.each(flyoversGrouped, function (flyoversForDay, day) {
-      $('#flyovers').append('<h2>' + day + '</h2>');
-      flyoversForDay = _.sortBy(flyoversForDay, 'clouds');
-      _.each(flyoversForDay, outputFlyover);
+      $('#flyovers').append(dayTemplate({day: day, flyovers: flyoversForDay}));
     });
 
     var summary = _.countBy(flyoversWithWeather, 'weatherDescription');

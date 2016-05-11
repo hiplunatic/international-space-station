@@ -13,8 +13,8 @@
         </div>
         <div><b>Who is on the station right now? </b><span class="astronauts"></span></div>
         <div>
-          Latitude: <input type="text" id="latitude" value="50.84"/>
-          Longitude: <input type="text" id="longitude" value="-0.3668"/>
+          Latitude: <input type="text" id="latitude" value="42.4990"/>
+          Longitude: <input type="text" id="longitude" value="83.3677"/>
         </div>
       </div>
       <h2>Weather Summary</h2>
@@ -26,6 +26,27 @@
 
       </div>
     </div>
+    <script type="text/template" id="day-template">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= day %></h3>
+        </div>
+        <div class="panel-body">
+          <ul class="list-group">
+              <% _.each(flyovers, function(flyover) { %>
+                <li class="list-group-item <%= (flyover.clouds == 0) ? 'list-group-item-success': '' %>">
+                  <b>
+                    <%= flyover.risetime.toLocaleString() %>
+                    for <%= Math.floor(flyover.duration/60) %>m<%= flyover.duration % 60 %>s
+                  </b>
+                  <%= flyover.weatherDescription %>
+                </li>
+              <% }); %>
+          </ul>
+        </div>
+      </div>
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="./scripts/underscore.js"></script>
     <script src="./scripts/script.js"></script>
