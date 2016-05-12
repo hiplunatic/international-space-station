@@ -58,7 +58,11 @@ _.extend(ISSFlyover.prototype, {
     var me = this;
     var location = {lat: $('#latitude').val(), lon: $('#longitude').val()};
     var complete = _.after(3, this.gotRefreshedData);
-    var apiKey = "ef3d980bb7bf92cc26ddafb1e5e10b1c";
+    /*
+      you will need to get an API key from http://openweathermap.org/appid for this to work properly.
+      once you have it, replace the blank string with your API key, and the app will work.
+    */
+    var apiKey = "";
 
     var getData = function (property, url, options) {
       jQuery.getJSON(url, options, function (data) {
