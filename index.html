@@ -5,49 +5,57 @@
     <link rel="stylesheet" href="./styles/style.css">
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="page-header">
         <h1>See the station <small>Spot the ISS</small></h1>
-        <div class="text-center">
-          <button id="refresh" class="btn btn-default">Find the station!</button>
-        </div>
-        <div><b>Who is on the station right now? </b><span id="astronauts"></span></div>
+      </div>
+      <div class="col-md-2 sidebar">
         <div>
-          Latitude: <input type="text" id="latitude" value="42.4990"/>
-          Longitude: <input type="text" id="longitude" value="83.3677"/>
+          <fieldset>
+            <legend class="coordinates">Latitude: </legend> <input type="text" id="latitude" value="42.4990"/>
+            <legend class="coordinates">Longitude: </legend> <input type="text" id="longitude" value="83.3677"/>
+          </fieldset>
+        </div>
+        <div class="text-center find-the-station">
+          <button id="refresh" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Find the station!</button>
         </div>
       </div>
-      <h2>Weather Summary</h2>
-      <div id="summary">
+      <div class="col-md-10">
+      <div class="row">
+        <h2>Who is on the station right now?</h2><span id="astronauts"></span>
+        <h2>Weather Summary</h2>
+        <div id="summary">
 
-      </div>
-      <h2>Flyovers</h2>
-      <div id="flyovers">
+        </div>
+        <h2>Flyovers</h2>
+        <div id="flyovers">
 
+        </div>
+        <script type="text/template" id="day-template">
+          <div class="panel panel-default col-md-4">
+            <div class="panel-heading">
+              <h3 class="panel-title"><%= day %></h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group">
+                  <% _.each(flyovers, function(flyover) { %>
+                    <li class="list-group-item <%= (flyover.clouds == 0) ? 'list-group-item-success': '' %>">
+                      <b>
+                        <%= flyover.risetime.toLocaleString() %>
+                        for <%= Math.floor(flyover.duration/60) %>m<%= flyover.duration % 60 %>s
+                      </b>
+                      <%= flyover.weatherDescription %>
+                    </li>
+                  <% }); %>
+              </ul>
+            </div>
+          </div>
+        </script>
       </div>
     </div>
-    <script type="text/template" id="day-template">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><%= day %></h3>
-        </div>
-        <div class="panel-body">
-          <ul class="list-group">
-              <% _.each(flyovers, function(flyover) { %>
-                <li class="list-group-item <%= (flyover.clouds == 0) ? 'list-group-item-success': '' %>">
-                  <b>
-                    <%= flyover.risetime.toLocaleString() %>
-                    for <%= Math.floor(flyover.duration/60) %>m<%= flyover.duration % 60 %>s
-                  </b>
-                  <%= flyover.weatherDescription %>
-                </li>
-              <% }); %>
-          </ul>
-        </div>
-      </div>
-    </script>
-
+  </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="./scripts/underscore.js"></script>
     <script src="./scripts/script.js"></script>
   </body>
